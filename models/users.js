@@ -8,8 +8,11 @@ const userSchema = new mongoose.Schema({
         unique: true
     },
     key: {
-        type: Number,
+        type: Object,
         required: true
+    },
+    qrcode: {
+        type: String
     }
 });
 

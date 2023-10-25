@@ -1,15 +1,10 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const userRouter = require('./routers/users');
-const twofaMeddleware = require('./middlewares/twofa');
+const authRouter = require('./routers/auth');
 
 app.use(express.json());
-app.use('/api/users', userRouter);
-
-app.get('/', twofaMeddleware, (req, res) => {
-    return res.send('Some information to authorised user');
-});
+app.use('/', authRouter);
 
 mongoose.connect('mongodb://localhost:8088/back2fa')
     .then(() => {
