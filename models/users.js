@@ -1,28 +1,30 @@
-const mongoose = require('mongoose');
-const Joi = require('joi');
+const Joi = require("joi");
 
-const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    key: {
-        type: Number,
-        required: true
-    }
-});
-
-const User = mongoose.model('User', userSchema);
+// In-memory storage
+const users = [];
 
 function validate(user) {
-    const schema = Joi.object({
-        name: Joi.string().required(),
-        key: Joi.number().required()
-    });
+  const schema = Joi.object({
+    name: Joi.string().required(),
+    key: Joi.number().required(),
+  });
 
-    return schema.validate(user);
+  return schema.validate(user);
+}
+
+function findOne(query) {
+  return users.find((user) => user.name === query.name);
+}
+
+function createUser(userData) {
+  const user = {
+    name: userData.name,
+    key: userData.key,
+  };
+  users.push(user);
+  return user;
 }
 
 module.exports.validate = validate;
-module.exports.User = User;
+module.exports.findOne = findOne;
+module.exports.createUser = createUser;
