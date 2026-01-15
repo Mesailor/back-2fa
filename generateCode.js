@@ -1,4 +1,9 @@
-module.exports = function generateCode(key) {
-    const timeInTenSec = Math.floor(Date.now() / 10000);
-    return timeInTenSec - key;
-}
+const speakeasy = require("speakeasy");
+
+module.exports = function verifyToken(secret, token) {
+  return speakeasy.totp.verify({
+    secret: secret,
+    encoding: "base32",
+    token: token,
+  });
+};

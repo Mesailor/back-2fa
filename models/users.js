@@ -6,7 +6,6 @@ const users = [];
 function validate(user) {
   const schema = Joi.object({
     name: Joi.string().required(),
-    key: Joi.number().required(),
   });
 
   return schema.validate(user);
@@ -19,12 +18,22 @@ function findOne(query) {
 function createUser(userData) {
   const user = {
     name: userData.name,
-    key: userData.key,
+    secret: userData.secret,
+    tempSecret: userData.tempSecret,
   };
   users.push(user);
+  return user;
+}
+
+function updateUser(name, updates) {
+  const user = users.find((u) => u.name === name);
+  if (user) {
+    Object.assign(user, updates);
+  }
   return user;
 }
 
 module.exports.validate = validate;
 module.exports.findOne = findOne;
 module.exports.createUser = createUser;
+module.exports.updateUser = updateUser;
